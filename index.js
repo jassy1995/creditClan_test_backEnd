@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const upload = require("express-fileupload");
 const passport = require("passport");
 const cors = require("cors");
@@ -40,6 +41,10 @@ app.use(upload());
 app.use(userRoute);
 app.use(orderRoute);
 app.use(fileReaderRoute);
+app.use(express.static(path.join(__dirname, "build")));
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
